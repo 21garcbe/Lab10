@@ -94,10 +94,10 @@ def main():
       calls to the WordAnalyzer class to process the selected file and print the report
     """
     file_options = {
-        '1': 'monte_cristo.txt',
-        '2': 'princess_mars.txt',
-        '3': 'Tarzan.txt',
-        '4': 'treasure_island.txt'
+        '1': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\monte_cristo.txt',
+        '2': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\princess_mars.txt',
+        '3': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\Tarzan.txt',
+        '4': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\treasure_island.txt'
     }
     print("--- Word Analyzer ---")
     while True:
@@ -109,6 +109,15 @@ def main():
         if choice == '5':
             print("Goodbye!")
             break
+        elif choice in file_options:
+            analyzer = WordAnalyzer(filepath=file_options[choice])
+            if analyzer.process_file(file_options[choice]):
+                print(f"\nWord frequency report for {file_options[choice]}:")
+                analyzer.print_report()
+            else:
+                print("Failed to process the file.")
+        else:
+            print("Invalid choice. Please select a valid option.")
 
 
 
