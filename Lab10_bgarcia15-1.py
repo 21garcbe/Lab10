@@ -45,6 +45,34 @@ class WordAnalyzer:
             6. split the cleaned line into words using the split method
             7. iterate through the split words and count the frequencies while checking each word against the stop words list.
         """
+        try:
+            if not self._path.exists():
+                print("Error: File not found.")
+                return False
+            
+            translator = str.maketrans('', '', string.punctuation)
+            
+            with self._path.open('r') as file:
+                for line in file:
+                    clean_line = line.translate(translator)  # Remove punctuation from the line
+                    words = clean_line.split()  # Split the line into words
+
+                    #iterate through split words and count frequencies while ignoring stop words
+                    for word in words:
+                        if word in self._stop_words:
+                            continue
+
+                        #iterate count frequency if the word is already in the dictionary, otherwise add it with a count of 1
+                        if word in self._frequencies:
+                            self._frequencies[word] += 1
+                        else:
+                            self._frequencies[word] = 1
+            #return true if file was processed successfully
+            return True
+        #throw exception if file is not found and print error message, return false to indicate failure
+        except FileNotFoundError as err:
+            print(f"File not found: {err}")
+            return False
        
         
     def print_report(self):
