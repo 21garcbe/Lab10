@@ -93,3 +93,29 @@ def main():
       input validation to ensure the user selects a valid option from the menu
       calls to the WordAnalyzer class to process the selected file and print the report
     """
+    file_options = {
+        '1': 'monte_cristo.txt',
+        '2': 'princess_mars.txt',
+        '3': 'Tarzan.txt',
+        '4': 'treasure_island.txt'
+    }
+    print("--- Word Analyzer ---")
+    while True:
+        print("\nSelect a file to analyze:")
+        for key, filename in file_options.items():
+            print(f"{key}. {filename}")
+        print("5. Exit")
+        choice = input("Enter your choice (1-5): ")
+        if choice == '5':
+            print("Goodbye!")
+            break
+
+
+
+
+
+
+
+
+
+main()
