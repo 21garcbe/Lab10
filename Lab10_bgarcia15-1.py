@@ -50,11 +50,11 @@ class WordAnalyzer:
                 print("Error: File not found.")
                 return False
             
-            translator = str.maketrans('', '', string.punctuation + "“”‘’")  # Create a translator to remove punctuation, including common quotation marks
+            translator = str.maketrans('', '', string.punctuation + '“”‘’•—–')  # Create a translator to remove punctuation, including common quotation marks
             
-            with self._path.open('r', encoding='utf-8') as file:
+            with self._path.open('r', encoding='utf-8-sig') as file:
                 for line in file:
-                    clean_line = line.translate(translator).lower()  # Remove punctuation from the line
+                    clean_line = line.translate(translator).lower() # Remove punctuation from the line
                     words = clean_line.split()  # Split the line into words
 
                     #iterate through split words and count frequencies while ignoring stop words
@@ -82,6 +82,7 @@ class WordAnalyzer:
         """
         for word in sorted(self._frequencies.keys()):
             print(f"{word}: {self._frequencies[word]}")
+            
 
 
 def main():
@@ -94,7 +95,7 @@ def main():
       calls to the WordAnalyzer class to process the selected file and print the report
     """
     file_options = {
-        '1': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\monte_cristo.txt',
+        '1': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\test.txt',
         '2': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\princess_mars.txt',
         '3': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\Tarzan.txt',
         '4': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\treasure_island.txt'
