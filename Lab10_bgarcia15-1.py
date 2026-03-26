@@ -50,11 +50,14 @@ class WordAnalyzer:
                 print("Error: File not found.")
                 return False
             
-            translator = str.maketrans('', '', string.punctuation + '“”‘’•—–')  # Create a translator to remove punctuation, including common quotation marks
+            translator = str.maketrans('', '', string.punctuation + '“”‘’•')  # Create a translator to remove punctuation
             
             with self._path.open('r', encoding='utf-8-sig') as file:
                 for line in file:
                     clean_line = line.translate(translator).lower() # Remove punctuation from the line
+                    clean_line = clean_line.replace('-', ' ')  # Replace hyphens with spaces to separate hyphenated words
+                    clean_line = clean_line.replace('—', ' ')  # Replace em dashes with spaces to separate words
+                    clean_line = clean_line.replace('–', ' ')  # Replace en dashes with spaces to separate words
                     words = clean_line.split()  # Split the line into words
 
                     #iterate through split words and count frequencies while ignoring stop words
@@ -93,6 +96,13 @@ def main():
       a dictionary to map user choices to file paths to txt files
       input validation to ensure the user selects a valid option from the menu
       calls to the WordAnalyzer class to process the selected file and print the report
+
+      Excecution steps:
+        1. Display a menu of predefined text files and an option to exit
+        2. Prompt the user to enter their choice
+        3. Validate the user's choice and either exit, process the selected file, or display an error message for invalid input
+        4. If a valid file is selected, create an instance of the WordAnalyzer class, call the process_file method, and print the report if processing was successful
+        5. Repeat the menu until the user chooses to exit
     """
     file_options = {
         '1': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\test.txt',
