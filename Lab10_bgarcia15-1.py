@@ -50,11 +50,11 @@ class WordAnalyzer:
                 print("Error: File not found.")
                 return False
             
-            translator = str.maketrans('', '', string.punctuation)
+            translator = str.maketrans('', '', string.punctuation + "“”‘’")  # Create a translator to remove punctuation, including common quotation marks
             
-            with self._path.open('r') as file:
+            with self._path.open('r', encoding='utf-8') as file:
                 for line in file:
-                    clean_line = line.translate(translator)  # Remove punctuation from the line
+                    clean_line = line.translate(translator).lower()  # Remove punctuation from the line
                     words = clean_line.split()  # Split the line into words
 
                     #iterate through split words and count frequencies while ignoring stop words
@@ -120,11 +120,8 @@ def main():
             print("Invalid choice. Please select a valid option.")
 
 
+#excecute the main function when the script is run
+if __name__ == "__main__":
+    main()
 
 
-
-
-
-
-
-main()
