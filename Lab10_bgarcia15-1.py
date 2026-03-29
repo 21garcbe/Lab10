@@ -6,23 +6,26 @@ Displays a menu of 4 predefined text files,
 lets the user select one, reads and analyzes the file.
 It will count the frequency of every word in the selected file and
 print an alphabetical report.
-
-The word analyzer class includes an optional list of "Stop words" during initialization
-so that when processing the file it will ignore any words in that list so they dont appear in the final count/report
-
 """
 from pathlib import Path
 import string
 
 class WordAnalyzer:
-    """Class to analyze a text file and count the frequency of each word, with optional stop words to ignore.
+    """Class to analyze a text file and count the frequency of each word.
+    Attributes:
+        _path (Path): A private attribute to store the file path as a Path object.
+        _frequencies (dict): A private dictionary to store the frequency of each word.
+    Methods:
+        __init__(self, filepath=None): Initializes the WordAnalyzer class with a file path.
+        process_file(self, filepath): Reads the specified text file, counts the frequency of each word while ignoring stop words, and stores the counts in a dictionary. Returns True if the file was processed successfully, or False if there was an error (e.g., file not found).
+        print_report(self): Sorts words alphabetically and prints the frequency of each word.
     """
-    def __init__(self, stop_words=None, filepath=None):
+    def __init__(self, filepath=None):
         """init method to initialize the WordAnalyzer class
         Will take the filepath to the text file as a string and store it as a private pathlib
         """
-        self._path = Path(filepath) #private path object to store path string
-        self._frequencies = {}  #private dictionary to store word frequencies
+        self._path = Path(filepath) 
+        self._frequencies = {}  
 
        
     def process_file(self, filepath):
@@ -50,21 +53,20 @@ class WordAnalyzer:
             
             with self._path.open('r', encoding='utf-8-sig') as file:
                 for line in file:
-                    clean_line = line.translate(translator).lower() # Remove punctuation from the line
-                    clean_line = clean_line.replace('-', ' ')  # Replace hyphens with spaces to separate hyphenated words
-                    clean_line = clean_line.replace('—', ' ')  # Replace em dashes with spaces to separate words
-                    clean_line = clean_line.replace('–', ' ')  # Replace en dashes with spaces to separate words
-                    words = clean_line.split()  # Split the line into words
+                    #Remove punctuation using translator, convert to lowercase, and replace hyphens/dashes with spaces
+                    clean_line = line.translate(translator).lower()
+                    clean_line = clean_line.replace('-', ' ')
+                    clean_line = clean_line.replace('—', ' ')
+                    clean_line = clean_line.replace('–', ' ')
 
-                    #iterate through split words and count frequencies
+                    words = clean_line.split()  
+
+                    #iterate through split words and count frequencies, if first instance of word add, otherwise increment count
                     for word in words:
-
-                        #iterate count frequency if the word is already in the dictionary, otherwise add it with a count of 1
                         if word in self._frequencies:
                             self._frequencies[word] += 1
                         else:
                             self._frequencies[word] = 1
-            #return true if file was processed successfully
             return True
         #throw exception if file is not found and print error message, return false to indicate failure
         except FileNotFoundError as err:
@@ -73,7 +75,7 @@ class WordAnalyzer:
        
         
     def print_report(self):
-        """Sort words alphabetically and print the frequency of each word
+        """Sort words alphabetically with sorted() and print the frequency of each word
             by iterating through the sorted keys of the frecuencies dictionary, printing each key
             and its corresponding value 
         """
@@ -104,7 +106,7 @@ def main():
         '3': 'Tarzan.txt',
         '4': 'treasure_island.txt'
     }
-    
+    # Display the menu and prompt the user for input until they choose to exit
     print("--- Word Analyzer ---")
     while True:
         print("\nSelect a file to analyze:")
@@ -117,6 +119,7 @@ def main():
         if choice == '5':
             print("Goodbye!")
             break
+        # Validate the user's choice and process the selected file if valid, otherwise display an error message
         elif choice in file_options:
             analyzer = WordAnalyzer(filepath=file_options[choice])
             if analyzer.process_file(file_options[choice]):
