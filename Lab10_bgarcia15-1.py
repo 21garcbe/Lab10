@@ -18,17 +18,13 @@ class WordAnalyzer:
     """Class to analyze a text file and count the frequency of each word, with optional stop words to ignore.
     """
     def __init__(self, stop_words=None, filepath=None):
-        """init method to initialize the WordAnalyzer class with an optional list of stop words.
-        Will take the filepath to the text file as a string and store it as a private pathlibrary
+        """init method to initialize the WordAnalyzer class
+        Will take the filepath to the text file as a string and store it as a private pathlib
         """
         self._path = Path(filepath) #private path object to store path string
         self._frequencies = {}  #private dictionary to store word frequencies
 
-        if stop_words:
-            self._stop_words = set(word.lower() for word in stop_words)  # Convert stop words to lowercase for case-insensitive comparison
-        else:
-            self._stop_words = set()  # Initialize an empty set if no stop words are provided
-
+       
     def process_file(self, filepath):
         """Method to read the specified text file, 
         count the frequency of each word while ignoring stop words, 
@@ -60,10 +56,8 @@ class WordAnalyzer:
                     clean_line = clean_line.replace('–', ' ')  # Replace en dashes with spaces to separate words
                     words = clean_line.split()  # Split the line into words
 
-                    #iterate through split words and count frequencies while ignoring stop words
+                    #iterate through split words and count frequencies
                     for word in words:
-                        if word in self._stop_words:
-                            continue
 
                         #iterate count frequency if the word is already in the dictionary, otherwise add it with a count of 1
                         if word in self._frequencies:
@@ -105,16 +99,19 @@ def main():
         5. Repeat the menu until the user chooses to exit
     """
     file_options = {
-        '1': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\test.txt',
-        '2': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\princess_mars.txt',
-        '3': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\Tarzan.txt',
-        '4': 'C:\\Users\\thebe\\PythonCSCC\\Lab10\\treasure_island.txt'
+        '1': 'monte_cristo.txt',
+        '2': 'princess_mars.txt',
+        '3': 'Tarzan.txt',
+        '4': 'treasure_island.txt'
     }
+    
     print("--- Word Analyzer ---")
     while True:
         print("\nSelect a file to analyze:")
-        for key, filename in file_options.items():
-            print(f"{key}. {filename}")
+        print("1. monte_cristo.txt")
+        print("2. princess_mars.txt")
+        print("3. Tarzan.txt")
+        print("4. treasure_island.txt")
         print("5. Exit")
         choice = input("Enter your choice (1-5): ")
         if choice == '5':
